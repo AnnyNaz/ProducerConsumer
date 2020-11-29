@@ -18,4 +18,5 @@ class Pipe
         std::atomic<bool> is_full = false;
         std::queue<int> storage;
         std::mutex list_mutex;
+
 };
