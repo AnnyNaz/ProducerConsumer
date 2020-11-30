@@ -14,9 +14,7 @@ class Pipe
         int receiveData();
     private:
         int m_size;
-        std::atomic<bool> is_empty = true;
-        std::atomic<bool> is_full = false;
+        std::condition_variable producer, consumer;
         std::queue<int> storage;
-        std::mutex list_mutex;
-
+        std::mutex storage_mutex;
 };

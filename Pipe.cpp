@@ -1,24 +1,22 @@
 #include "Pipe.h"
+#include <condition_variable>
+
 Pipe::Pipe(int size) :m_size(size) {};
 void Pipe::sendData(int i)
 {
-    while (is_full) {};
-    list_mutex.lock();
+    std::unique_lock<std::mutex> lck(storage_mutex);
+    producer.wait(lck, [&]() {return m_size >= storage.size(); });
     storage.push(i);
-    is_full = (m_size <= storage.size());
-    is_empty = (0 == storage.size());
-    list_mutex.unlock();
+    consumer.notify_one();
     return;
 }
 int Pipe::receiveData()
 {
     int result;
-    while (is_empty) {};
-    list_mutex.lock();
+    std::unique_lock<std::mutex> lck(storage_mutex);
+    consumer.wait(lck, [&]() {return 0 != storage.size(); });
     result = storage.front();
     storage.pop();
-    is_full = (m_size <= storage.size());
-    is_empty = (0 == storage.size());
-    list_mutex.unlock();
+    producer.notify_one();
     return result;
 }

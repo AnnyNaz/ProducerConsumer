@@ -1,2 +1,3 @@
-﻿  main.cpp
+﻿  Pipe.cpp
+C:\Users\hanna.nazarkevych\source\repos\ExpressionParser\ProducerConsumer\Pipe.cpp(8,45): warning C4018: '>=': signed/unsigned mismatch
   ProducerConsumer.vcxproj -> C:\Users\hanna.nazarkevych\source\repos\ExpressionParser\Debug\ProducerConsumer.exe
